@@ -152,7 +152,6 @@
         #generate-link-btn { background-color: #1DA1F2; }
         #share-link-btn { background-color: #008080; }
         
-        /* אזור ההיסטוריה */
         #history {
             position: sticky; 
             top: 20px;
@@ -188,7 +187,7 @@
             cursor: pointer;
             padding: 4px 8px;
         }
-        /* --- תיקון CSS להסרת האיקס --- */
+
         .history-item {
             margin-bottom: 8px;
             padding: 5px 0; /* הריווח הוסר משמאל */
@@ -202,9 +201,9 @@
             display: block;
         }
         .delete-btn {
-            display: none; /* הסתרת כפתור המחיקה הבודד */
+            display: none; 
         }
-        /* --- סוף תיקון CSS --- */
+
         .history-input {
             width: 100%;
             margin-top: 5px;
@@ -212,7 +211,6 @@
             text-align: right !important;
         }
         
-        /* רספונסיביות (מובייל) */
         @media (max-width: 900px) {
             #main-container {
                 flex-direction: column; 
@@ -222,7 +220,7 @@
                 gap: 15px;
             }
             #history {
-                display: none; /* הסתרת ההיסטוריה במובייל */
+                display: none; 
             }
             #instant-chat-box,
             .feature-box {
@@ -422,20 +420,16 @@
         function addToHistory(number, note) {
             let history = JSON.parse(localStorage.getItem('whatsappHistory')) || [];
 
-            // שמירת המספר בצורה אחידה (ללא 0 או 972 מקדימים, אלא אם זה חלק מהמספר עצמו)
             let cleanNumber = number.replace('972', ''); 
             if (cleanNumber.startsWith('0')) {
                 cleanNumber = cleanNumber.substring(1);
             }
             
-            // מציאת הפריט הקיים כדי לשמור את ההערה אם קיימת
             const existingItem = history.find(item => item.number === cleanNumber);
             const currentNote = existingItem ? existingItem.note : note;
 
-            // סינון (מחיקה) של הפריט הקיים לפני הוספתו כראשון
             history = history.filter(item => item.number !== cleanNumber);
             
-            // הוספה בראש הרשימה עם ההערה הנוכחית
             history.unshift({ number: cleanNumber, note: currentNote });
 
             if (history.length > 10) {
@@ -460,9 +454,7 @@
                     document.getElementById('phone').value = '0' + item.number;
                     document.getElementById('phone').focus();
                 };
-
-                // כפתור המחיקה הוסר לפי בקשתך
-
+                
                 div.appendChild(span);
 
                 const input = document.createElement('input');
@@ -486,7 +478,6 @@
         }
 
         function deleteHistoryItem(index) {
-            // פונקציה זו כבר לא נגישה דרך UI, אך נשמרת למקרה הצורך
             let history = JSON.parse(localStorage.getItem('whatsappHistory')) || [];
             history.splice(index, 1);
             localStorage.setItem('whatsappHistory', JSON.stringify(history));
